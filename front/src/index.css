@@ -1,0 +1,71 @@
+@import "tailwindcss";
+
+/* تفعيل الوضع الليلي حسب الكلاس */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* متغيرات الألوان للوضع الليلي */
+:root {
+    --bg-primary: #ffffff;
+    --bg-secondary: #f3f4f6;
+    --text-primary: #1f2937;
+    --text-secondary: #6b7280;
+}
+
+.dark {
+    --bg-primary: #0f172a;
+    --bg-secondary: #1e293b;
+    --text-primary: #f1f5f9;
+    --text-secondary: #94a3b8;
+}
+
+/* تطبيق الألوان على الجسم */
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.dark body {
+    background-color: #0f172a;
+}
+
+/* إصلاح ألوان النصوص في الوضع الليلي */
+.dark select,
+.dark input[type="text"],
+.dark input[type="number"],
+.dark input[type="search"],
+.dark textarea {
+    background-color: #1e293b;
+    color: #f1f5f9;
+    border-color: #475569;
+}
+
+.dark select option {
+    background-color: #1e293b;
+    color: #f1f5f9;
+}
+
+.dark .text-gray-800,
+.dark .text-gray-700,
+.dark .text-gray-600,
+.dark .text-gray-500 {
+    color: #e2e8f0 !important;
+}
+
+.dark .bg-white {
+    background-color: #1e293b !important;
+}
+
+.dark .bg-gray-50 {
+    background-color: #0f172a !important;
+}
+
+.dark .border {
+    border-color: #475569 !important;
+}
+
+/* إصلاح الـ placeholders */
+.dark ::placeholder {
+    color: #94a3b8 !important;
+    opacity: 1;
+}
