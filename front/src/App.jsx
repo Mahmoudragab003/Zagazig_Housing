@@ -124,7 +124,7 @@ function AppRoutes() {
  */
 function App() {
   return (
-    <Router>
+    <Router basename="/Zagazig_Housing">
       <ThemeProvider>
         <CompareProvider>
           <AuthProvider>

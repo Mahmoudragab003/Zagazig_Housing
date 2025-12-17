@@ -14,7 +14,7 @@ export default defineConfig({
       manifest: {
         name: 'Zagazig Housing',
         short_name: 'Housing',
-        start_url: '/',
+        start_url: '/Zagazig_Housing/',
         display: 'standalone',
         background_color: '#ffffff',
         theme_color: '#0d6efd',
