@@ -65,10 +65,6 @@ const userSchema = new mongoose.Schema({
         maxlength: [100, 'Company name cannot exceed 100 characters']
     },
     // Student-specific fields
-    studentId: {
-        type: String,
-        trim: true
-    },
     faculty: {
         type: String,
         trim: true
@@ -97,7 +93,7 @@ const userSchema = new mongoose.Schema({
 });
 
 // Virtual for full name
-userSchema.virtual('fullName').get(function() {
+userSchema.virtual('fullName').get(function () {
     return `${this.firstName} ${this.lastName}`;
 });
 
@@ -115,12 +111,12 @@ userSchema.index({ role: 1 });
 userSchema.index({ isActive: 1 });
 
 // Pre-save middleware to hash password
-userSchema.pre('save', async function(next) {
+userSchema.pre('save', async function (next) {
     // Only hash the password if it has been modified (or is new)
     if (!this.isModified('password')) {
         return next();
     }
-    
+
     try {
         // Generate salt and hash password
         const salt = await bcrypt.genSalt(12);
@@ -132,32 +128,32 @@ userSchema.pre('save', async function(next) {
 });
 
 // Instance method to compare passwords
-userSchema.methods.comparePassword = async function(candidatePassword) {
+userSchema.methods.comparePassword = async function (candidatePassword) {
     return await bcrypt.compare(candidatePassword, this.password);
 };
 
 // Instance method to check if user is admin
-userSchema.methods.isAdmin = function() {
+userSchema.methods.isAdmin = function () {
     return this.role === 'admin';
 };
 
 // Instance method to check if user is vendor
-userSchema.methods.isVendor = function() {
+userSchema.methods.isVendor = function () {
     return this.role === 'vendor';
 };
 
 // Instance method to check if user is student
-userSchema.methods.isStudent = function() {
+userSchema.methods.isStudent = function () {
     return this.role === 'student';
 };
 
 // Static method to find user by email with password
-userSchema.statics.findByEmailWithPassword = function(email) {
+userSchema.statics.findByEmailWithPassword = function (email) {
     return this.findOne({ email }).select('+password');
 };
 
 // Static method to find active users by role
-userSchema.statics.findActiveByRole = function(role) {
+userSchema.statics.findActiveByRole = function (role) {
     return this.find({ role, isActive: true });
 };
 

@@ -30,7 +30,6 @@ const Register = () => {
         phone: '',
         role: 'student',
         // حقول الطالب
-        studentId: '',
         faculty: '',
         // حقول المالك
         companyName: ''
@@ -99,7 +98,6 @@ const Register = () => {
 
         // إضافة الحقول حسب نوع المستخدم
         if (formData.role === 'student') {
-            userData.studentId = formData.studentId;
             userData.faculty = formData.faculty;
         } else if (formData.role === 'vendor') {
             userData.companyName = formData.companyName;
@@ -271,35 +269,20 @@ const Register = () => {
 
                         {/* حقول الطالب */}
                         {formData.role === 'student' && (
-                            <div className="grid grid-cols-2 gap-3">
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-300 mb-2">
-                                        الرقم الجامعي
-                                    </label>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-300 mb-2">
+                                    الكلية
+                                </label>
+                                <div className="relative">
+                                    <BookOpen className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                                     <input
                                         type="text"
-                                        value={formData.studentId}
-                                        onChange={(e) => handleInputChange('studentId', e.target.value)}
-                                        placeholder="123456"
+                                        value={formData.faculty}
+                                        onChange={(e) => handleInputChange('faculty', e.target.value)}
+                                        placeholder="الهندسة"
                                         required
-                                        className="w-full bg-white/10 border border-white/20 rounded-xl py-2.5 px-4 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                                        className="w-full bg-white/10 border border-white/20 rounded-xl py-2.5 pl-10 pr-4 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
                                     />
-                                </div>
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-300 mb-2">
-                                        الكلية
-                                    </label>
-                                    <div className="relative">
-                                        <BookOpen className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                                        <input
-                                            type="text"
-                                            value={formData.faculty}
-                                            onChange={(e) => handleInputChange('faculty', e.target.value)}
-                                            placeholder="الهندسة"
-                                            required
-                                            className="w-full bg-white/10 border border-white/20 rounded-xl py-2.5 pl-10 pr-4 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
-                                        />
-                                    </div>
                                 </div>
                             </div>
                         )}

@@ -23,7 +23,7 @@ const generateToken = (id) => {
  */
 router.post('/register', async (req, res) => {
     try {
-        const { firstName, lastName, email, password, phone, role, studentId, faculty, companyName } = req.body;
+        const { firstName, lastName, email, password, phone, role, faculty, companyName } = req.body;
 
         // Check if user already exists
         const existingUser = await User.findOne({ email });
@@ -55,7 +55,6 @@ router.post('/register', async (req, res) => {
 
         // Add role-specific fields
         if (role === 'student') {
-            userData.studentId = studentId;
             userData.faculty = faculty;
         } else if (role === 'vendor') {
             userData.companyName = companyName;
@@ -214,7 +213,7 @@ router.get('/me', protect, async (req, res) => {
  */
 router.put('/update-profile', protect, async (req, res) => {
     try {
-        const { firstName, lastName, phone, studentId, faculty, companyName } = req.body;
+        const { firstName, lastName, phone, faculty, companyName } = req.body;
 
         const updateData = {};
         if (firstName) updateData.firstName = firstName;
@@ -223,7 +222,6 @@ router.put('/update-profile', protect, async (req, res) => {
 
         // Role-specific updates
         if (req.user.role === 'student') {
-            if (studentId) updateData.studentId = studentId;
             if (faculty) updateData.faculty = faculty;
         } else if (req.user.role === 'vendor') {
             if (companyName) updateData.companyName = companyName;

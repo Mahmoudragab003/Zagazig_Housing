@@ -12,7 +12,7 @@ const Profile = () => {
     const [message, setMessage] = useState({ type: '', text: '' });
     const [formData, setFormData] = useState({
         firstName: user?.firstName || '', lastName: user?.lastName || '', phone: user?.phone || '',
-        studentId: user?.studentId || '', faculty: user?.faculty || '', companyName: user?.companyName || ''
+        faculty: user?.faculty || '', companyName: user?.companyName || ''
     });
     const [passwordData, setPasswordData] = useState({ currentPassword: '', newPassword: '', confirmPassword: '' });
 
@@ -91,9 +91,9 @@ const Profile = () => {
                         </div>
                         <div><label className="block text-sm text-gray-600 mb-1">رقم الهاتف</label><input type="tel" value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} className="w-full border rounded-xl py-2 px-3" /></div>
                         {user?.role === 'student' && (
-                            <div className="grid grid-cols-2 gap-4">
-                                <div><label className="block text-sm text-gray-600 mb-1">الرقم الجامعي</label><input type="text" value={formData.studentId} onChange={(e) => setFormData({ ...formData, studentId: e.target.value })} className="w-full border rounded-xl py-2 px-3" /></div>
-                                <div><label className="block text-sm text-gray-600 mb-1">الكلية</label><input type="text" value={formData.faculty} onChange={(e) => setFormData({ ...formData, faculty: e.target.value })} className="w-full border rounded-xl py-2 px-3" /></div>
+                            <div>
+                                <label className="block text-sm text-gray-600 mb-1">الكلية</label>
+                                <input type="text" value={formData.faculty} onChange={(e) => setFormData({ ...formData, faculty: e.target.value })} className="w-full border rounded-xl py-2 px-3" />
                             </div>
                         )}
                         {user?.role === 'vendor' && (
