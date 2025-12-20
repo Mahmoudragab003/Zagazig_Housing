@@ -294,10 +294,10 @@ const Home = () => {
                 </div>
             )}
 
-            {/* أحدث الإعلانات */}
+            {/* جميع الإعلانات */}
             <div className="container mx-auto px-4 py-12">
                 <h2 className="text-2xl font-bold text-gray-800 mb-6">
-                    أحدث الإعلانات
+                    جميع الإعلانات
                 </h2>
 
                 {isLoading ? (
