@@ -76,6 +76,15 @@ app.use('/api/saved-searches', require('./routes/savedSearches'));
 app.use('/api/notifications', require('./routes/notifications'));
 app.use('/api/ai', require('./routes/ai'));
 
+// Root endpoint for Railway healthcheck
+app.get('/', (req, res) => {
+    res.json({
+        success: true,
+        message: 'Zagazig Housing API is running',
+        version: '1.0.0'
+    });
+});
+
 // Health check route
 app.get('/api/health', (req, res) => {
     res.json({
