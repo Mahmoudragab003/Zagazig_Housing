@@ -1,7 +1,8 @@
 // API Configuration
-export const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
-export const API_BASE = import.meta.env.VITE_API_URL?.replace('/api', '') || 'http://localhost:5000';
-export const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || import.meta.env.VITE_API_URL?.replace('/api', '') || 'http://localhost:5000';
+const PROD_API = 'https://zagazighousing-production-1847.up.railway.app';
+export const API_URL = import.meta.env.VITE_API_URL || `${PROD_API}/api`;
+export const API_BASE = import.meta.env.VITE_API_URL?.replace('/api', '') || PROD_API;
+export const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || import.meta.env.VITE_API_URL?.replace('/api', '') || PROD_API;
 
 // Helper function to get full image URL
 export const getImageUrl = (imagePath) => {
