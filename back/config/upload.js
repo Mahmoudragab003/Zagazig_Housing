@@ -1,29 +1,12 @@
 /**
  * إعداد رفع الملفات (Upload Configuration)
- * استخدام Multer لرفع صور الشقق
+ * استخدام Multer مع Cloudinary لرفع صور الشقق
  */
 
 const multer = require('multer');
-const path = require('path');
-const fs = require('fs');
 
-// إنشاء مجلد الصور إذا لم يكن موجوداً
-const uploadDir = path.join(__dirname, '../uploads');
-if (!fs.existsSync(uploadDir)) {
-    fs.mkdirSync(uploadDir, { recursive: true });
-}
-
-// إعدادات التخزين
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, uploadDir);
-    },
-    filename: (req, file, cb) => {
-        // اسم فريد للملف
-        const uniqueName = `${Date.now()}-${Math.round(Math.random() * 1E9)}${path.extname(file.originalname)}`;
-        cb(null, uniqueName);
-    }
-});
+// استخدام memory storage بدلاً من disk storage للـ Cloudinary
+const storage = multer.memoryStorage();
 
 // فلترة الملفات - صور فقط
 const fileFilter = (req, file, cb) => {
@@ -47,3 +30,4 @@ const upload = multer({
 });
 
 module.exports = upload;
+

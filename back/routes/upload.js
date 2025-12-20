@@ -1,17 +1,41 @@
 /**
  * مسارات رفع الصور (Upload Routes)
+ * رفع الصور إلى Cloudinary
  */
 
 const express = require('express');
 const upload = require('../config/upload');
+const cloudinary = require('../config/cloudinary');
 const { protect, vendorOnly } = require('../middleware/auth');
-const path = require('path');
 
 const router = express.Router();
 
 /**
+ * Helper function to upload buffer to Cloudinary
+ */
+const uploadToCloudinary = (buffer, folder = 'zagazig_housing') => {
+    return new Promise((resolve, reject) => {
+        const uploadStream = cloudinary.uploader.upload_stream(
+            {
+                folder: folder,
+                resource_type: 'image',
+                transformation: [
+                    { width: 1200, height: 800, crop: 'limit' },
+                    { quality: 'auto' }
+                ]
+            },
+            (error, result) => {
+                if (error) reject(error);
+                else resolve(result);
+            }
+        );
+        uploadStream.end(buffer);
+    });
+};
+
+/**
  * @route   POST /api/upload/images
- * @desc    رفع صور للإعلان
+ * @desc    رفع صور للإعلان إلى Cloudinary
  * @access  Private (Vendor)
  */
 router.post('/images', protect, vendorOnly, upload.array('images', 10), async (req, res) => {
@@ -23,8 +47,12 @@ router.post('/images', protect, vendorOnly, upload.array('images', 10), async (r
             });
         }
 
-        // إنشاء روابط الصور
-        const imageUrls = req.files.map(file => `/uploads/${file.filename}`);
+        // رفع كل صورة إلى Cloudinary
+        const uploadPromises = req.files.map(file => uploadToCloudinary(file.buffer));
+        const results = await Promise.all(uploadPromises);
+
+        // استخراج روابط الصور
+        const imageUrls = results.map(result => result.secure_url);
 
         res.json({
             success: true,
@@ -42,7 +70,7 @@ router.post('/images', protect, vendorOnly, upload.array('images', 10), async (r
 
 /**
  * @route   POST /api/upload/image
- * @desc    رفع صورة واحدة
+ * @desc    رفع صورة واحدة إلى Cloudinary
  * @access  Private (Vendor)
  */
 router.post('/image', protect, vendorOnly, upload.single('image'), async (req, res) => {
@@ -54,10 +82,13 @@ router.post('/image', protect, vendorOnly, upload.single('image'), async (req, r
             });
         }
 
+        // رفع الصورة إلى Cloudinary
+        const result = await uploadToCloudinary(req.file.buffer);
+
         res.json({
             success: true,
             message: 'تم رفع الصورة بنجاح',
-            data: { image: `/uploads/${req.file.filename}` }
+            data: { image: result.secure_url }
         });
     } catch (error) {
         res.status(500).json({
@@ -68,3 +99,4 @@ router.post('/image', protect, vendorOnly, upload.single('image'), async (req, r
 });
 
 module.exports = router;
+
